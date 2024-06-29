@@ -1,0 +1,6 @@
+langchain
+langchain-community
+chromadb
+pandas
+numpy
+faiss-cpu
