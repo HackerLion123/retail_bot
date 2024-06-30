@@ -1,3 +1,4 @@
+from langchain_community.chat_models import ChatOllama
 from langchain_community.llms import Ollama
 from langchain.agents import AgentType
 
