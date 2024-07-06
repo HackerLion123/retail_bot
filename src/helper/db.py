@@ -1,7 +1,7 @@
-import chromadb
+import chromadb as cb
 
 
 class ChromaDB:
 
     def __init__(self) -> None:
-        pass
+        client = cb.Client()
