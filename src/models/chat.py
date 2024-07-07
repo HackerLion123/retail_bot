@@ -1,4 +1,4 @@
-from langchain import PromptTemplate
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from langchain.output_parsers import StructuredOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
@@ -14,5 +14,5 @@ def parse_output():
     pass
 
 
-def get_agent_response():
+def get_agent_response(agent, messages):
     pass

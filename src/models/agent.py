@@ -1,7 +1,9 @@
 from langchain.memory import ChatMessageHistory, ConversationBufferMemory
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_community.chat_models import ChatOllama
-from langchain.agents import AgentType
+from langchain.agents import AgentType, AgentExecutor
+
+from src import config
 
 
 class ChatAgent:
@@ -14,7 +16,7 @@ class ChatAgent:
 
     def _define_model(self):
 
-        llm1 = ChatOllama()
+        llm1 = ChatOllama(**config.model1_config)
 
         llm2 = ChatOllama()
 
