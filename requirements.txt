@@ -4,5 +4,4 @@ chromadb
 pandas
 numpy
 streamlit
-langsmith
 duckduckgo-search
