@@ -1,6 +1,8 @@
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+from langchain.tools.render import render_text_description
 from langchain.output_parsers import StructuredOutputParser
 from langchain_core.prompts import ChatPromptTemplate
+
 
 from src.models.agent import ChatAgent
 from src.models.rag import RAGSearch
@@ -15,8 +17,10 @@ class StyleAgentPrompt:
 
     prompt = f"""
     {bos}{header_start} system {header_end}
-    
 
+    You are a clothing style bot you have access to these tools
+
+    
     """
 
 

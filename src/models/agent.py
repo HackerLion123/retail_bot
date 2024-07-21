@@ -3,6 +3,8 @@ from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_community.llms import Ollama
 from langchain.agents import AgentExecutor, initialize_agent
 
+from langchain_community.utilities import DuckDuckGoSearchAPIWrapper
+
 
 from src import config
 
@@ -21,7 +23,10 @@ class ChatAgent:
 
     def _create_agent(self, prompt):
         llm = Ollama(**config.MODEL_CONFIG)
-        tools = [DuckDuckGoSearchRun()]
+
+        # setting search region to aus.
+        wrapper = DuckDuckGoSearchAPIWrapper(region="au-en", time="y", max_results=5)
+        tools = [DuckDuckGoSearchRun(api_wrapper=wrapper)]
         self.agent = initialize_agent(
             agent="chat-conversational-react-description",
             tools=tools,
