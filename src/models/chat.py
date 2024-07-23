@@ -18,7 +18,9 @@ class StyleAgentPrompt:
     prompt = f"""
     {bos}{header_start} system {header_end}
 
-    You are a clothing style bot you have access to these tools
+    You are a cloth styling assistant that provide clothing recommendation based on user query.
+
+    
 
     
     """

@@ -31,17 +31,14 @@ class ChatAgent:
             agent="chat-conversational-react-description",
             tools=tools,
             llm=llm,
-            verbose=True,
+            verbose=config.DEBUG_FLAG,
             early_stopping_method="generate",
             memory=self.memory,
             handle_parsing_errors=True,
         )
-        self.agent_executor = AgentExecutor(
-            agent=self.agent, tools=tools, verbose=True, handle_parsing_errors=True
-        )
 
     def chat(self, question):
-        return self.agent_executor.invoke(question)
+        return self.agent.run(question)
 
 
 if __name__ == "__main__":

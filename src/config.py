@@ -10,3 +10,5 @@ MODEL_CONFIG = {
 
 
 EMBEDDING_PATH = "data/processed/"
+
+DEBUG_FLAG = True
