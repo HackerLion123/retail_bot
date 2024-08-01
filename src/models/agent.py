@@ -45,4 +45,4 @@ if __name__ == "__main__":
     agent = ChatAgent()
 
     agent.build("You are a style bot you provide style suggestions")
-    agent.chat([("human", "Tropical trend")])
+    agent.chat({"input": "Tropical trend", "chat_history": []})
