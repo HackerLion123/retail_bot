@@ -1,7 +1,7 @@
 from langchain.memory import ChatMessageHistory, ConversationBufferMemory
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_community.llms import Ollama
-from langchain.agents import AgentExecutor, initialize_agent
+from langchain.agents import AgentExecutor, create_react_agent
 
 from langchain_community.utilities import DuckDuckGoSearchAPIWrapper
 
@@ -15,7 +15,7 @@ class ChatAgent:
         self.messages = []
         self.rag_chain = None
         self.memory = ConversationBufferMemory(
-            memory_key="history", return_messages=True, output_key="output"
+            memory_key="chat_history", return_messages=True, output_key="output"
         )
 
     def build(self, prompt):
@@ -27,18 +27,21 @@ class ChatAgent:
         # setting search region to aus.
         wrapper = DuckDuckGoSearchAPIWrapper(region="au-en", time="y", max_results=5)
         tools = [DuckDuckGoSearchRun(api_wrapper=wrapper)]
-        self.agent = initialize_agent(
-            agent="chat-conversational-react-description",
+
+        agent = create_react_agent(llm)
+        self.agent = AgentExecutor(
+            agent=agent,
             tools=tools,
-            llm=llm,
             verbose=config.DEBUG_FLAG,
             early_stopping_method="generate",
             memory=self.memory,
             handle_parsing_errors=True,
         )
 
-    def chat(self, question):
-        return self.agent.run(question)
+        print(self.agent.get_prompts())
+
+    def chat(self, input):
+        return self.agent.invoke(input)
 
 
 if __name__ == "__main__":
