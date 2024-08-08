@@ -10,10 +10,11 @@ eos = "<|eot_id|>"
 
 
 def create_agent_prompt():
+    """ """
     prompt = ChatPromptTemplate.from_messages(
         [
             SystemMessage(
-                """You are a helful cloth styling assistant that helps kmart customers to get best clothing styles.
+                content="""You are a helful cloth styling assistant that helps kmart customers to get best clothing styles.
                 You have access to DuckDuckGoRun Tool which you can use to understand different fashion trends 
                 and also find which color or material goes with what 
                 and a reteriver tool that can find kmart products and it will give it's details.
@@ -22,6 +23,12 @@ def create_agent_prompt():
             )
         ]
     )
+
+    another_prompt = """
+    You are a helful cloth styling assistant that helps kmart customers to get best clothing styles.
+    {tools}
+    Don't answer anything not releated to cloth styling.
+    """
 
     inital_search_prompt = """
     You are a cloth styling assistant that provide clothing recommendation based on user query.
@@ -56,6 +63,4 @@ def create_agent_prompt():
     If you have provided recommendation     
     """
 
-    refine_prompt = """
-
-    """
+    return prompt
