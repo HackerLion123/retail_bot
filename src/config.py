@@ -11,3 +11,6 @@ MODEL_CONFIG = {
 EMBEDDING_PATH = "data/processed/"
 
 DEBUG_FLAG = True
+
+
+LLM_CACHE_PATH = "data/cache/"

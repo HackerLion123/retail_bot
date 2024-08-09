@@ -25,9 +25,17 @@ def generate_page():
         st.chat_message("user").markdown(prompt)
         st.session_state.messages.append({"role": "user", "content": prompt})
 
-        response = f"Echo: {prompt}"
+        response = generate_response()
 
         with st.chat_message("assistant"):
-            st.markdown(response)
+            parse_output(response)
 
         st.session_state.messages.append({"role": "assistant", "content": response})
+
+
+def parse_output(output):
+
+    for product in output["recommendations"]:
+        image = Image.open(product["url"])
+
+        st.image(image, caption=product["title"])

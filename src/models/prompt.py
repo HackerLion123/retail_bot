@@ -14,10 +14,11 @@ def create_agent_prompt():
     prompt = ChatPromptTemplate.from_messages(
         [
             SystemMessage(
-                content="""You are a helful cloth styling assistant that helps kmart customers to get best clothing styles.
-                You have access to DuckDuckGoRun Tool which you can use to understand different fashion trends 
-                and also find which color or material goes with what 
-                and a reteriver tool that can find kmart products and it will give it's details.
+                content="""You are a helful cloth styling assistant that 
+                helps kmart customers to get best clothing styles from kmart products.
+                You have access to following tools
+                {tools}
+
                 Don't answer anything not releated to cloth styling.
                 """
             )
@@ -26,6 +27,12 @@ def create_agent_prompt():
 
     another_prompt = """
     You are a helful cloth styling assistant that helps kmart customers to get best clothing styles.
+    
+    TOOLS:
+    ------
+
+    Assistant has access to the following tools:
+
     {tools}
     Don't answer anything not releated to cloth styling.
     """

@@ -12,7 +12,7 @@ def create_product_search_tool():
         _type_: _description_
     """
 
-    data = pd.read_csv("")
+    data = pd.read_csv("data/raw/")
 
     db = generate_embeddings(docs=data)
 
