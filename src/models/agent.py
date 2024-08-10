@@ -36,9 +36,10 @@ class ChatAgent:
             agent=agent,
             tools=self.tools,
             verbose=config.DEBUG_FLAG,
-            early_stopping_method="force",
+            early_stopping_method="generate",
             memory=self.memory,
             handle_parsing_errors=True,
+            max_iterations=30,
         )
 
     def chat(self, input):

@@ -1,20 +1,13 @@
 from langchain_core.prompts import (
     ChatPromptTemplate,
-    MessagesPlaceholder,
     HumanMessagePromptTemplate,
     PromptTemplate,
 )
 
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+from langchain_core.messages import SystemMessage
 
 
-bos = "<|begin_of_text|>"
-header_start = "<|start_header_id|>"
-header_end = "<|end_header_id|>"
-eos = "<|eot_id|>"
-
-
-def create_agent_prompt(tools_desc):
+def create_agent_prompt():
     """ """
     another_prompt = """
     You have access to following tools
@@ -34,7 +27,7 @@ def create_agent_prompt(tools_desc):
     Action: the action to take, should be one of [{tool_names}]
     Action Input: the input to the action
     Observation: the result of the action
-    ... (this Thought/Action/Action Input/Observation can repeat N times)
+    ... (this Thought/Action/Action Input/Observation can repeat 10 times)
 
     When you have a response to say to the Human, or if you do not need to use a tool, you MUST use the format:
 
@@ -42,7 +35,7 @@ def create_agent_prompt(tools_desc):
 
     Thought: Do I need to use a tool? No
 
-    Final Answer: [Your answer] Stop generation 
+    Final Answer: [Your answer]
 
     ```
 
@@ -61,6 +54,8 @@ def create_agent_prompt(tools_desc):
     Use the tool to find user style, latest fashion trend, what color and material goes
     with each other.
 
+    Follow these steps and do all the actions with less tool usage and thought process.
+
     Use user search history to determine what style user likes.
 
     if you can't determine the style consider only user input.
@@ -71,8 +66,8 @@ def create_agent_prompt(tools_desc):
 
     Give more importance to the user input.
     
-    Validate if the pieces in output are stylish and works well together. 
     provide final recommnedation in json format with color, material and cloth name. 
+
 
     example output:
         {{

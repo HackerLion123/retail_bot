@@ -19,8 +19,7 @@ def fetch_user_search_history(user_id="default"):
 
 def generate_response(input, user_id):
     agent = ChatAgent()
-    tools_desc = agent.tools_desc
-    prompt = create_agent_prompt(tools_desc=tools_desc)
+    prompt = create_agent_prompt()
     agent.build(prompt=prompt)
 
     user_history = fetch_user_search_history(user_id)
