@@ -1,4 +1,9 @@
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.prompts import (
+    ChatPromptTemplate,
+    MessagesPlaceholder,
+    HumanMessagePromptTemplate,
+    PromptTemplate,
+)
 
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
@@ -9,65 +14,89 @@ header_end = "<|end_header_id|>"
 eos = "<|eot_id|>"
 
 
-def create_agent_prompt():
+def create_agent_prompt(tools_desc):
     """ """
-    prompt = ChatPromptTemplate.from_messages(
-        [
-            SystemMessage(
-                content="""You are a helful cloth styling assistant that 
-                helps kmart customers to get best clothing styles from kmart products.
-                You have access to following tools
-                {tools}
-
-                Don't answer anything not releated to cloth styling.
-                """
-            )
-        ]
-    )
-
     another_prompt = """
-    You are a helful cloth styling assistant that helps kmart customers to get best clothing styles.
-    
+    You have access to following tools
+
     TOOLS:
     ------
 
     Assistant has access to the following tools:
 
     {tools}
-    Don't answer anything not releated to cloth styling.
+
+   
+    Use the following format:
+
+    Question: the input question you must answer
+    Thought: you should always think about what to do
+    Action: the action to take, should be one of [{tool_names}]
+    Action Input: the input to the action
+    Observation: the result of the action
+    ... (this Thought/Action/Action Input/Observation can repeat N times)
+
+    When you have a response to say to the Human, or if you do not need to use a tool, you MUST use the format:
+
+    ```
+
+    Thought: Do I need to use a tool? No
+
+    Final Answer: [Your answer] Stop generation 
+
+    ```
+
+
+    Begin!
+
+    
+    conversation history:
+
+    {chat_history}
+
+    {input}
+    
+    Thought:{agent_scratchpad}
+    
+    Use the tool to find user style, latest fashion trend, what color and material goes
+    with each other.
+
+    Use user search history to determine what style user likes.
+
+    if you can't determine the style consider only user input.
+    Otherwise consider both the user input and user preference and use them to
+
+    Based on user style and input provide 3 - 4 stylish outfits that 
+    has pieces that work well together.
+
+    Give more importance to the user input.
+    
+    Validate if the pieces in output are stylish and works well together. 
+    provide final recommnedation in json format with color, material and cloth name. 
+
+    example output:
+        {{
+        'outfit1':[
+        ],
+        'outfit2':[]
+        ...
+        }}
+
+    The final output should only be json object Without anything added.
     """
+    human_prompt = PromptTemplate.from_template(another_prompt)
 
-    inital_search_prompt = """
-    You are a cloth styling assistant that provide clothing recommendation based on user query.
-
-    You have access to DuckDuckGoSearchRun tool which you can use to search web on good trends and
-    matching colors to use for style recommendation.
-
-    You will have following 3 inputs:
-
-    User's Past 4 purchases
-    {user_history}
-
-    User's Past 3 Search
-    {user_search_history}
-
-    User Query:
-    {user_query}
-
-    Now, 
-        
-    If you haven't provided recommendation already
-    follow these instrustions step by step and don't miss any step.
-
-    1. Based on the user's purchase and search history determine user's gender.
-    2. Based on the user's purchase, gender and search history determine user's style preference.
-        eg: casual, business casual, vintage, street wear, punk, girly girl etc.
-    3. Now use web to search for latest trends in user's style preference category.
-    4. Now consider user's search query and find styles that matches with user search query.
-    5. The recommendation you provide should be name of the clothing item, color material.
-
-
-    If you have provided recommendation     
-    """
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            SystemMessage(
+                content="""You are a helful cloth styling assistant that helps 
+                kmart customers to get best clothing styles from kmart products.
+                if user asks anything other than clothing related tell them to ask
+                only clothing related question.
+                """
+            ),
+            HumanMessagePromptTemplate(prompt=human_prompt),
+        ]
+    )
 
     return prompt

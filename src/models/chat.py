@@ -10,14 +10,34 @@ from PIL import Image
 import streamlit as st
 
 
-def generate_response(input):
+def fetch_user_search_history(user_id="default"):
+
+    return "\n".join(
+        ["Blue men's jeans", "Formal shoes", "Plain shirt", "green Tshirts"]
+    )
+
+
+def generate_response(input, user_id):
     agent = ChatAgent()
-    prompt = create_agent_prompt()
-    agent.build()
+    tools_desc = agent.tools_desc
+    prompt = create_agent_prompt(tools_desc=tools_desc)
+    agent.build(prompt=prompt)
+
+    user_history = fetch_user_search_history(user_id)
+
+    chat_input = f"""
+    user search history:
+
+    {user_history}
 
 
-    return 
+    user question: {input}
+    """
+
+    return agent.chat(input=chat_input)
 
 
-def get_agent_response(agent):
-    
+if __name__ == "__main__":
+    output = generate_response(
+        "I am going to costrica I want dress for that", "default"
+    )

@@ -21,6 +21,9 @@ class ChatAgent:
         self.memory = ConversationBufferMemory(
             memory_key="chat_history", return_messages=True, output_key="output"
         )
+        wrapper = DuckDuckGoSearchAPIWrapper(region="au-en", time="y", max_results=5)
+        self.tools = [DuckDuckGoSearchRun(api_wrapper=wrapper)]
+        self.tools_desc = render_text_description(self.tools)
 
     def build(self, prompt):
         self._create_agent(prompt=prompt)
@@ -28,27 +31,22 @@ class ChatAgent:
     def _create_agent(self, prompt):
         llm = Ollama(**config.MODEL_CONFIG)
 
-        # setting search region to aus.
-        wrapper = DuckDuckGoSearchAPIWrapper(region="au-en", time="y", max_results=5)
-        tools = [DuckDuckGoSearchRun(api_wrapper=wrapper)]
-        self.tools_desc = render_text_description(tools)
-
-        agent = create_react_agent(llm, tools=tools)
+        agent = create_react_agent(llm, tools=self.tools, prompt=prompt)
         self.agent = AgentExecutor(
             agent=agent,
-            tools=tools,
+            tools=self.tools,
             verbose=config.DEBUG_FLAG,
-            early_stopping_method="generate",
+            early_stopping_method="force",
             memory=self.memory,
             handle_parsing_errors=True,
         )
 
     def chat(self, input):
-        return self.agent.invoke(input)
+        return self.agent.invoke({"input": input})
 
 
 if __name__ == "__main__":
     agent = ChatAgent()
 
     agent.build("You are a style bot you provide style suggestions")
-    agent.chat({"input": "Tropical trend", "chat_history": []})
+    # agent.chat({"input": "Tropical trend", "chat_history": []})
