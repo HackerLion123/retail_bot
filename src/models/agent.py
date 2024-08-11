@@ -36,10 +36,10 @@ class ChatAgent:
             agent=agent,
             tools=self.tools,
             verbose=config.DEBUG_FLAG,
-            early_stopping_method="generate",
+            early_stopping_method="force",
             memory=self.memory,
             handle_parsing_errors=True,
-            max_iterations=30,
+            max_iterations=60,
         )
 
     def chat(self, input):
@@ -47,7 +47,4 @@ class ChatAgent:
 
 
 if __name__ == "__main__":
-    agent = ChatAgent()
-
-    agent.build("You are a style bot you provide style suggestions")
-    # agent.chat({"input": "Tropical trend", "chat_history": []})
+    pass

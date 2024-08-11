@@ -35,7 +35,7 @@ def create_agent_prompt():
 
     Thought: Do I need to use a tool? No
 
-    Final Answer: [Your answer]
+    Final Answer: [only Json object]
 
     ```
 
@@ -50,6 +50,7 @@ def create_agent_prompt():
     {input}
     
     Thought:{agent_scratchpad}
+
     
     Use the tool to find user style, latest fashion trend, what color and material goes
     with each other.
@@ -68,16 +69,17 @@ def create_agent_prompt():
     
     provide final recommnedation in json format with color, material and cloth name. 
 
+    The final output should only be json object Without anything added
 
-    example output:
-        {{
+    Final Answer: 
+    [    {{
         'outfit1':[
         ],
         'outfit2':[]
         ...
         }}
-
-    The final output should only be json object Without anything added.
+    ]
+    AGENT END
     """
     human_prompt = PromptTemplate.from_template(another_prompt)
 
