@@ -3,7 +3,7 @@ import os
 MODEL_CONFIG = {
     "base_url": "http://localhost:11434",
     "model": "llama3.1",
-    "temperature": 0.9,
+    "temperature": 0,
     "keep_alive": 500,
 }
 
