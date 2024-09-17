@@ -2,6 +2,14 @@ import streamlit as st
 
 from PIL import Image
 
+import requests
+from io import BytesIO
+
+import json
+
+
+from src.models.search import ProductSearch
+
 from src.models.chat import generate_response
 
 
@@ -25,17 +33,31 @@ def generate_page():
         st.chat_message("user").markdown(prompt)
         st.session_state.messages.append({"role": "user", "content": prompt})
 
-        response = generate_response()
+        print(prompt)
+
+        response = generate_response(input=prompt, user_id="default")
 
         with st.chat_message("assistant"):
-            parse_output(response)
+            parse_output(response["output"])
 
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 
 def parse_output(output):
 
-    for product in output["recommendations"]:
-        image = Image.open(product["url"])
+    output = json.loads(output)
+    search = ProductSearch()
 
-        st.image(image, caption=product["title"])
+    for product in output["recommendations"]:
+
+        recommendations = search.search(str(product))
+
+        for keycode in recommendations:
+            print(keycode["img"])
+
+            # image = Image.open(keycode["img"])
+
+            response = requests.get(keycode["img"])
+            image = Image.open(BytesIO(response.content))
+
+            st.image(image, caption=keycode["name"])

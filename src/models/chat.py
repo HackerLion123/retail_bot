@@ -1,6 +1,3 @@
-from langchain.output_parsers import StructuredOutputParser
-
-
 from src.models.agent import ChatAgent
 
 from src.models.prompt import create_agent_prompt
@@ -13,7 +10,7 @@ import streamlit as st
 def fetch_user_search_history(user_id="default"):
 
     return "\n".join(
-        ["Blue men's jeans", "Formal shoes", "Plain shirt", "green Tshirts"]
+        ["Blue men's jeans", "White sneakers", "Plain shirt", "green Tshirts"]
     )
 
 
@@ -30,13 +27,14 @@ def generate_response(input, user_id):
     {user_history}
 
 
-    user question: {input}
+    user question:
+
+    {input}
     """
 
     return agent.chat(input=chat_input)
 
 
 if __name__ == "__main__":
-    output = generate_response(
-        "I am going to costrica I want dress for that", "default"
-    )
+    output = generate_response("suggest me outfit for beach party", "default")
+    print(output)
