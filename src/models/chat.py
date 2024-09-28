@@ -8,10 +8,7 @@ import streamlit as st
 
 
 def fetch_user_search_history(user_id="default"):
-
-    return "\n".join(
-        ["Blue men's jeans", "White sneakers", "Plain shirt", "green Tshirts"]
-    )
+    return "\n".join(["light Blue jeans", "White sneakers", "casual tops"])
 
 
 def generate_response(input, user_id):
