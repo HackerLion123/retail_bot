@@ -1,5 +1,5 @@
 ## Retail Stylist Bot
-Retail stylist bot is a chatbot that helps users
+Retail stylist bot is a chatbot that helps users to make fashion choices according to there past search and purchases. It also helps provide complete the look recommendations. 
 
 
 
